@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  height: 250px;
+  justify-content: center;
+}
+
+.load {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  width: 100%;
+}
+
+.flex-center{
+  display: flex;
+  justify-content: center;
+}

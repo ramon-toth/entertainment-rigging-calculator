@@ -1,0 +1,29 @@
+.arrow {
+  width: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.line {
+  width: 15px;
+  /* background: blue; */
+  height: 120px;
+}
+
+.point {
+  width: 0;
+  height: 0;
+  border-top: 20px solid transparent;
+  border-bottom: 20px solid transparent;
+  /* border-left: 40px solid blue; */
+  float: right;
+}
+
+.up {
+    rotate: -90deg;
+}
+
+.down {
+    rotate: 90deg;
+}

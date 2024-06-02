@@ -1,0 +1,52 @@
+.truss-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    width: 100%;
+    /* background-color: #f5f1f1; */
+}
+
+.truss {
+    height: 70px;
+    width: 100%;
+}
+
+.chord {
+    height: 8px;
+    width: 100%;
+    background-color: #100a0a;
+}
+
+.chord-top {
+    align-self: self-start;
+}
+
+.chord-bottom {
+    align-self: self-end;
+}
+
+.apexes {
+    display: flex;
+    height: 50px;
+    width: 100%;
+    background-color: white
+}
+
+.apex {
+    align-self: center;
+    height: 8px;
+    width: 85px;
+    background-color: black
+}
+
+.apex-down {
+    rotate: 45deg;
+}
+
+.apex-up {
+    rotate: -45deg;
+}
+.endplate{
+    rotate: 90deg;
+}
