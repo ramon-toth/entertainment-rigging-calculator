@@ -34,7 +34,7 @@ function GraphLoads({
   };
 
   return (
-    <div className="container">
+    <div className="graph-container">
       {Array(trussLength)
         .fill()
         .map((_, index) => (
