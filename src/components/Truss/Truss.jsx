@@ -1,12 +1,15 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
+import { UnitsContext } from "../../context/unitsContext";
 import "./Truss.css";
 
-function Truss() {
+function Truss({ trussLength }) {
   const apexes = useRef(null);
+
+  const units = useContext(UnitsContext);
 
   const drawTruss = () => {
     const screenWidth = window.innerWidth;
-    const numberOfApexes = Math.floor(screenWidth / 83);
+    const numberOfApexes = Math.floor(screenWidth / 100);
 
     apexes.current.innerHTML = "";
 
@@ -36,6 +39,12 @@ function Truss() {
         <div className="chord chord-top"></div>
         <div className="apexes" ref={apexes}></div>
         <div className="chord chord-bottom"></div>
+        <div className="truss-labels">
+          <span>0 {units.length}</span>
+          <span>
+            {trussLength} {units.length}
+          </span>
+        </div>
       </div>
     </div>
   );

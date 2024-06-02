@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UnitsContext } from "../context/unitsContext";
 
 function LoadLabel({ data }) {
   const styles = {
@@ -9,11 +10,17 @@ function LoadLabel({ data }) {
       height: "70px",
     },
   };
+
+  const units = useContext(UnitsContext);
   return (
     <div style={styles.container}>
       <span>{data.label}</span>
-      <span>{data.position} ft</span>
-      <span>{data.load} lbs</span>
+      <span>
+        {data.position} {units.length}
+      </span>
+      <span>
+        {data.load} {units.force}
+      </span>
     </div>
   );
 }

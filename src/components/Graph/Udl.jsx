@@ -1,3 +1,6 @@
+import { useContext } from "react";
+import { UnitsContext } from "../../context/unitsContext";
+
 function Udl({ trussLength = 12, udl = 100, color = "orange" }) {
   const styles = {
     container: {
@@ -28,12 +31,16 @@ function Udl({ trussLength = 12, udl = 100, color = "orange" }) {
     },
   };
 
+  const units = useContext(UnitsContext);
   const screenWidth = window.innerWidth;
   const numberOfArrow = Math.floor(screenWidth / 30);
 
   return (
     <div style={styles.container}>
-      <div> Uniformly Distributed Load: {udl} lbs</div>
+      <div>
+        {" "}
+        Uniformly Distributed Load: {udl} {units.force}
+      </div>
       <div style={styles.line}></div>
       <div style={styles.arrowContainer}>
         {Array.from({ length: numberOfArrow }).map((_, index) => (
