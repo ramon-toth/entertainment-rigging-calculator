@@ -3,25 +3,11 @@ import Arrow from "../Arrow/Arrow";
 import "./Graph.css";
 import LoadLabel from "../LoadLabel";
 
-function GraphLoads({
-  trussLength = 12,
-  loads = [
-    {
-      position: 1,
-      load: 200,
-      label: "Line Array",
-    },
-    {
-      position: 4,
-      load: 400,
-      label: "Projector",
-    },
-  ],
-}) {
+function GraphLoads({ trussLength = 12, loads = [] }) {
   const renderLoads = (index) => {
-    const load = loads.find((load) => load.position === index + 1);
+    const load = loads.find((load) => parseInt(load.position) === index + 1);
 
-    if (load && load.position === index + 1) {
+    if (load && parseInt(load.position) === index + 1) {
       return (
         <div>
           <LoadLabel data={load} />

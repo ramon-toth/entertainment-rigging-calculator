@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { UnitsContext } from "../../context/unitsContext";
 
-function Udl({ trussLength = 12, udl = 100, color = "orange" }) {
+function Udl({ trussLength = 12, udl = 0, color = "orange" }) {
   const styles = {
     container: {
       display: "flex",

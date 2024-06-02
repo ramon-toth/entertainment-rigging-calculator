@@ -6,15 +6,26 @@ import LoadLabel from "../LoadLabel";
 function GraphSupports({
   trussLength = 12,
 
-  supports = [
-    { position: 1, load: 100, label: "RP1" },
-    { position: 12, load: 4000, label: "RP2" },
-  ],
-}) {
-  const renderSupport = (index) => {
-    const support = supports.find((support) => support.position === index + 1);
+  supports = { 0: 45.833333333333336, 24: 154.16666666666666 },
 
-    if (support && support.position === index + 1) {
+  // supports = [
+  //   { position: 1, load: 100, label: "RP1" },
+  //   { position: 12, load: 4000, label: "RP2" },
+  // ],
+}) {
+  const supportsArray = Object.entries(supports).map(([position, load]) => ({
+    position: parseInt(position),
+    load: Math.ceil(load),
+  }));
+
+  console.log(supportsArray);
+
+  const renderSupport = (index) => {
+    const support = supportsArray.find(
+      (support) => parseInt(support.position) === index + 1
+    );
+
+    if (support && parseInt(support.position) === index + 1) {
       return (
         <div>
           <div className="flex-center" style={{ marginTop: "10px" }}>

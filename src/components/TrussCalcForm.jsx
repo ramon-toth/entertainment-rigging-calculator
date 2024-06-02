@@ -31,6 +31,7 @@ function TrussCalcForm({
           <Input
             label="Truss Weight"
             name={"trussWeight"}
+            value={formData.trussWeight}
             onChange={handleChange}
             unit={units.force}
           />

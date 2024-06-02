@@ -63,12 +63,12 @@ export function calculateSupportLoads(beamLength, supports, loads, udl) {
 }
 
 // Usage:
-let beamLength = 12;
-let supports = [1, 6, 12];
-let loads = [
-  { position: 3, weight: 100 },
-  { position: 9, weight: 4000 },
-];
-let udl = 200; // Uniformly distributed load of 200 units per length
+// let beamLength = 12;
+// let supports = [1, 6, 12];
+// let loads = [
+//   { position: 3, weight: 100 },
+//   { position: 9, weight: 4000 },
+// ];
+// let udl = 200; // Uniformly distributed load of 200 units per length
 
-console.log(calculateSupportLoads(beamLength, supports, loads, udl));
+// console.log(calculateSupportLoads(beamLength, supports, loads, udl));

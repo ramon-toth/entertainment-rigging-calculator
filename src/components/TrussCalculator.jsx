@@ -16,23 +16,29 @@ function TrussCalculator() {
   const [formData, setFormData] = useState({
     trussLength: 24,
     numberOfSupports: 2,
-    supports: [0, 24],
+    trussWeight: 100,
+    udl: 0,
+    supports: [2, 22],
     loads: [
       { ...initLoad, id: 1 },
-      { ...initLoad, id: 2, position: 6 },
+      { ...initLoad, id: 2, position: 10 },
     ],
   });
   const handleChange = (e) => {
+    e.preventDefault();
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSupportLocationChange = (e, index) => {
+    e.preventDefault();
     const newSupports = [...formData.supports];
     newSupports[index] = e.target.value;
     setFormData({ ...formData, supports: newSupports });
   };
 
   const handleLoadChange = (e, id) => {
+    e.preventDefault();
+
     const load = formData.loads.find((load) => load.id === id);
     const loadIndex = formData.loads.findIndex((load) => load.id === id);
 
@@ -44,7 +50,11 @@ function TrussCalculator() {
   };
 
   const handleAddLoad = () => {
-    const newLoad = { ...initLoad, id: formData.loads.length + 1 };
+    const newLoad = {
+      ...initLoad,
+      id: formData.loads.length + 1,
+      position: Math.floor(Math.random() * formData.trussLength),
+    };
     setFormData({ ...formData, loads: [...formData.loads, newLoad] });
   };
 
@@ -63,7 +73,7 @@ function TrussCalculator() {
         handleRemoveLoad={handleRemoveLoad}
         handleSupportLocationChange={handleSupportLocationChange}
       />
-      <Graph />
+      <Graph data={formData} />
     </UnitsProvider>
   );
 }
