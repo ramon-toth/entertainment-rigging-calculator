@@ -1,6 +1,5 @@
 import React from "react";
 import { calculateSupportLoads } from "../../utils/beamMath";
-import { parse } from "postcss";
 import GraphSupports from "./GraphSupports";
 
 function GraphCalculate({ data }) {
@@ -16,7 +15,7 @@ function GraphCalculate({ data }) {
 
   const supportLoads = calculateSupportLoads(
     parseInt(trussLength),
-    supports,
+    supports.map((support) => support.position),
     pointLoads,
     totalUdl
   );

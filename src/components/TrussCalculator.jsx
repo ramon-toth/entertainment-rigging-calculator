@@ -18,7 +18,7 @@ function TrussCalculator() {
     numberOfSupports: 2,
     trussWeight: 100,
     udl: 0,
-    supports: [2, 22],
+    supports: [{id: 1, position: 2, label: 'RP 1'}, {id: 2, position: 22, label: 'RP 2'}],
     loads: [
       { ...initLoad, id: 1 },
       { ...initLoad, id: 2, position: 10 },
@@ -36,6 +36,7 @@ function TrussCalculator() {
     setFormData({ ...formData, supports: newSupports });
   };
 
+  // Handlers for Point Loads
   const handleLoadChange = (e, id) => {
     e.preventDefault();
 
@@ -63,6 +64,34 @@ function TrussCalculator() {
     setFormData({ ...formData, loads: newLoads });
   };
 
+  // Handlers for Rigging Points
+
+  const handleSupportChange = (e, id) => {
+    e.preventDefault();
+    const support = formData.supports.find((support) => support.id === id);
+    const supportIndex = formData.supports.findIndex(
+      (support) => support.id === id
+    );
+    formData.supports[supportIndex] = {
+      ...support,
+      [e.target.name]: e.target.value,
+    };
+    setFormData({ ...formData });
+  }
+
+  const handleAddSupport = () => {
+    const newSupport = {
+      id: formData.supports.length + 1,
+      position: Math.floor(Math.random() * formData.trussLength),
+    };
+    setFormData({ ...formData, supports: [...formData.supports, newSupport] });
+  }
+
+  const handleRemoveSupport = (id) => {
+    const newSupports = formData.supports.filter((support) => support.id !== id);
+    setFormData({ ...formData, supports: newSupports });
+  }
+
   return (
     <UnitsProvider value={units.imperial}>
       <TrussCalcForm
@@ -72,6 +101,10 @@ function TrussCalculator() {
         handleLoadChange={handleLoadChange}
         handleRemoveLoad={handleRemoveLoad}
         handleSupportLocationChange={handleSupportLocationChange}
+        handleAddSupport={handleAddSupport}
+        handleRemoveSupport={handleRemoveSupport}
+        handleSupportChange={handleSupportChange}
+        // handleSupportsNumberChange={handleSupportsNumberChange}
       />
       <Graph data={formData} />
     </UnitsProvider>

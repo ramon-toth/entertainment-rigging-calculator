@@ -5,13 +5,19 @@ import { useState } from "react";
 import { UnitsContext } from "../context/unitsContext";
 import Divider from "./Divider";
 import PointLoadForm from "./PointLoadForm";
+import RiggingPointForm from "./RiggingPointForm";
 
 function TrussCalcForm({
   handleChange,
   handleAddLoad,
   handleRemoveLoad,
+  // handleSupportsNumberChange,
   handleLoadChange,
   handleSupportLocationChange,
+handleAddSupport,
+handleRemoveSupport,
+ handleSupportChange,
+
   formData,
 }) {
   const units = useContext(UnitsContext);
@@ -31,12 +37,17 @@ function TrussCalcForm({
           <Input
             label="Truss Weight"
             name={"trussWeight"}
-            value={formData.trussWeight}
+            value={formData.trussWeighte}
             onChange={handleChange}
             unit={units.force}
           />
-          <Divider title="Supports" />
-          <Input
+          {/* <Divider title="Supports" />eeeeee */}
+          <RiggingPointForm supports={formData.supports}
+                  handleAddSupport={handleAddSupport}
+                  handleRemoveSupport={handleRemoveSupport}
+                  handleChange={handleSupportChange}
+          />
+          {/* <Input
             label="Number of Supports"
             name={"numberOfSupports"}
             value={formData.numberOfSupports}
@@ -51,7 +62,7 @@ function TrussCalcForm({
                 unit={units.length}
               />
             </div>
-          ))}
+          ))} */}
         </div>
         <div className="w-full mx-5">
           <Divider title="Loads" />
