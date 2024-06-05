@@ -13,12 +13,17 @@ function TrussCalculator() {
     label: "Load",
   };
 
+  const initSupport = { id: 1, position: 2, label: "RP X" };
+
   const [formData, setFormData] = useState({
     trussLength: 24,
     numberOfSupports: 2,
     trussWeight: 100,
     udl: 0,
-    supports: [{id: 1, position: 2, label: 'RP 1'}, {id: 2, position: 22, label: 'RP 2'}],
+    supports: [
+      { id: 1, position: 2, label: "RP 1" },
+      { id: 2, position: 22, label: "RP 2" },
+    ],
     loads: [
       { ...initLoad, id: 1 },
       { ...initLoad, id: 2, position: 10 },
@@ -77,20 +82,23 @@ function TrussCalculator() {
       [e.target.name]: e.target.value,
     };
     setFormData({ ...formData });
-  }
+  };
 
   const handleAddSupport = () => {
     const newSupport = {
+      ...initSupport,
       id: formData.supports.length + 1,
       position: Math.floor(Math.random() * formData.trussLength),
     };
     setFormData({ ...formData, supports: [...formData.supports, newSupport] });
-  }
+  };
 
   const handleRemoveSupport = (id) => {
-    const newSupports = formData.supports.filter((support) => support.id !== id);
+    const newSupports = formData.supports.filter(
+      (support) => support.id !== id
+    );
     setFormData({ ...formData, supports: newSupports });
-  }
+  };
 
   return (
     <UnitsProvider value={units.imperial}>

@@ -18,7 +18,7 @@ function GraphSupports({
     load: Math.ceil(load),
   }));
 
-  console.log(supportsArray);
+  // console.log(supportsArray);
 
   const renderSupport = (index) => {
     const support = supportsArray.find(

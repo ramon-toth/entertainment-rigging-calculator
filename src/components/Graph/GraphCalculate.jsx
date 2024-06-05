@@ -16,6 +16,7 @@ function GraphCalculate({ data }) {
   const supportLoads = calculateSupportLoads(
     parseInt(trussLength),
     supports.map((support) => support.position),
+    // supports,
     pointLoads,
     totalUdl
   );

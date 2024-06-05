@@ -1,74 +1,85 @@
-// function calculateSupportLoads(beamLength, supports, loads) {
-//   let totalLoad = loads.reduce((total, load) => total + load.weight, 0);
-//   let momentAboutSupportA = loads.reduce(
-//     (total, load) => total + load.weight * (beamLength - load.position),
-//     0
-//   );
-
-//   let loadOnSupportA = momentAboutSupportA / beamLength;
-//   let loadOnSupportB = totalLoad - loadOnSupportA;
-
-//   let supportLoads = {};
-//   supports.forEach((support, index) => {
-//     supportLoads[support] = index === 0 ? loadOnSupportA : loadOnSupportB;
-//   });
-
-//   return supportLoads;
-// }
-
-// // Usage:
-// let beamLength = 12;
-// let supports = [1, 12];
-// let loads = [
-//   { position: 3, weight: 100 },
-//   { position: 9, weight: 4000 },
-// ];
-
-// console.log(calculateSupportLoads(beamLength, supports, loads));
+export const udlLoadDistribution = [
+  {
+    supports: 2,
+    distribution: [50, 50],
+  },
+  {
+    supports: 3,
+    distribution: [19, 62, 19],
+  },
+  { supports: 4, distribution: [13, 37, 37, 13] },
+  { supports: 5, distribution: [10, 28, 24, 28, 10] },
+  { supports: 6, distribution: [8, 23, 19, 19, 23, 8] },
+  { supports: 7, distribution: [7, 19, 15, 18, 15, 19, 7] },
+  { supports: 8, distribution: [6, 16, 14, 14, 14, 16, 16, 6] },
+];
 
 export function calculateSupportLoads(beamLength, supports, loads, udl) {
-  let totalLoad =
-    loads.reduce((total, load) => total + load.weight, 0) + udl * beamLength;
-  let supportLoads = Array(supports.length).fill(0);
-
-  for (let i = 0; i < supports.length - 1; i++) {
-    let sectionLength = supports[i + 1] - supports[i];
-    let sectionLoads = loads.filter(
-      (load) => load.position >= supports[i] && load.position < supports[i + 1]
-    );
-    let sectionLoad =
-      sectionLoads.reduce((total, load) => total + load.weight, 0) +
-      udl * sectionLength;
-    let momentAboutSupport =
-      sectionLoads.reduce(
-        (total, load) => total + load.weight * (load.position - supports[i]),
-        0
-      ) +
-      (udl * sectionLength * sectionLength) / 2;
-
-    supportLoads[i] += momentAboutSupport / sectionLength;
-    supportLoads[i + 1] += sectionLoad - momentAboutSupport / sectionLength;
-  }
-
-  let remainingLoad =
-    totalLoad - supportLoads.reduce((total, load) => total + load, 0);
-  supportLoads[supportLoads.length - 1] += remainingLoad;
-
-  let supportLoadsObj = {};
+  let sections = [];
+  // Determine Sections
   supports.forEach((support, index) => {
-    supportLoadsObj[support] = supportLoads[index];
+    if (index === 0) {
+      // sections.push({ id: 1, start: 0, end: support, length: support });
+    } else {
+      sections.push({
+        id: index,
+        r1: supports[index - 1],
+        r2: support,
+        l: support - supports[index - 1],
+      });
+    }
   });
 
-  return supportLoadsObj;
+  // Calculate Loads
+  sections.forEach((section) => {
+    let sectionLoads = loads.filter(
+      (load) => load.position >= section.r1 && load.position < section.r2
+    );
+
+    let supportLoads = Array(2).fill(0);
+    sectionLoads.forEach((load) => {
+      supportLoads[1] =
+        supportLoads[1] +
+        (load.weight * (load.position - section.r1)) / section.l;
+      supportLoads[0] = supportLoads[0] + (load.weight - supportLoads[1]);
+    });
+    section.load = supportLoads;
+  });
+
+  let totalLoads = Array(supports.length).fill(0);
+  supports.forEach((support, index) => {
+    sections.find((section) => {
+      if (section.r2 === support) {
+        totalLoads[index] = totalLoads[index] + section.load[1];
+      } else if (section.r1 === support) {
+        totalLoads[index] = totalLoads[index] + section.load[0];
+      }
+    });
+  });
+
+  // Add UDL to each support - up to 8 supports
+  let udlDistribution = udlLoadDistribution.find(
+    (x) => x.supports === supports.length
+  ).distribution;
+
+  let supportLoadsWithUdl = totalLoads.map(
+    (load, index) => (load += (udlDistribution[index] * udl) / 100)
+  );
+
+  let result = {};
+  supports.forEach((support, index) => {
+    result[support] = supportLoadsWithUdl[index];
+  });
+
+  return result;
 }
 
-// Usage:
-// let beamLength = 12;
-// let supports = [1, 6, 12];
-// let loads = [
-//   { position: 3, weight: 100 },
-//   { position: 9, weight: 4000 },
-// ];
-// let udl = 200; // Uniformly distributed load of 200 units per length
+let beamLength = 24;
+let supports = [1, 6, 12, 15];
+let loads = [
+  { position: 8, weight: 100 },
+  { position: 14, weight: 400 },
+];
+let udl = 100; // Uniformly distributed load of 200 units per length
 
-// console.log(calculateSupportLoads(beamLength, supports, loads, udl));
+console.log(calculateSupportLoads(beamLength, supports, loads, udl));
