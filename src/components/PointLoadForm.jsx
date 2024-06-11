@@ -36,13 +36,14 @@ function PointLoadForm({
             onChange={(e) => handleChange(e, load.id)}
           />
           <div className="flex justify-center">
-            <button
+            {index === loads.length - 1 && (            <button
               type="button"
               className="rounded bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100 mx-5"
               onClick={handleAddLoad}
             >
               Add Load
             </button>
+    )}
             <button
               type="button"
               className="rounded bg-red-50 px-2 py-1 text-xs font-semibold text-red-600 shadow-sm hover:bg-indigo-100 mx-5"

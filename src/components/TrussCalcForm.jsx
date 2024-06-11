@@ -47,22 +47,6 @@ handleRemoveSupport,
                   handleRemoveSupport={handleRemoveSupport}
                   handleChange={handleSupportChange}
           />
-          {/* <Input
-            label="Number of Supports"
-            name={"numberOfSupports"}
-            value={formData.numberOfSupports}
-            onChange={handleChange}
-          />
-          {Array.from({ length: formData.numberOfSupports }, (_, index) => (
-            <div key={index} className="mb-3">
-              <Input
-                name={`support-${index}`}
-                onChange={(e) => handleSupportLocationChange(e, index)}
-                label={`RP ${index + 1} Location`}
-                unit={units.length}
-              />
-            </div>
-          ))} */}
         </div>
         <div className="w-full mx-5">
           <Divider title="Loads" />

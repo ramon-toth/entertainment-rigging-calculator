@@ -36,13 +36,16 @@ function RiggingPointForm({
             onChange={(e) => handleChange(e, support.id)}
           />
           <div className="flex justify-center">
+            { index === supports.length - 1 && (
             <button
-              type="button"
-              className="rounded bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100 mx-5"
-              onClick={handleAddSupport}
-            >
-              Add Rigging Point
-            </button>
+            type="button"
+            className="rounded bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100 mx-5"
+            onClick={handleAddSupport}
+          >
+            Add Rigging Point
+          </button>
+          )
+            }
             <button
               type="button"
               className="rounded bg-red-50 px-2 py-1 text-xs font-semibold text-red-600 shadow-sm hover:bg-indigo-100 mx-5"
