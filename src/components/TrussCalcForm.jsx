@@ -37,7 +37,7 @@ handleRemoveSupport,
           <Input
             label="Truss Weight"
             name={"trussWeight"}
-            value={formData.trussWeighte}
+            value={formData.trussWeight}
             onChange={handleChange}
             unit={units.force}
           />
@@ -68,6 +68,7 @@ handleRemoveSupport,
           <Divider title="Loads" />
           <Input
             name="udl"
+            value={formData.udl}
             onChange={handleChange}
             label="UDL Load"
             unit={units.force}

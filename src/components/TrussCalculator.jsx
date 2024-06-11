@@ -4,6 +4,8 @@ import { units } from "../utils/units";
 import Graph from "./Graph/Graph";
 import TrussCalcForm from "./TrussCalcForm";
 import { useState } from "react";
+import useLocalStorage from "../hooks/useLocalStorage";
+import { parseIfNumber } from "../utils/utils";
 
 function TrussCalculator() {
   const initLoad = {
@@ -15,7 +17,7 @@ function TrussCalculator() {
 
   const initSupport = { id: 1, position: 2, label: "RP X" };
 
-  const [formData, setFormData] = useState({
+  const [savedData, setSavedData] = useLocalStorage("trussData", {
     trussLength: 24,
     numberOfSupports: 2,
     trussWeight: 100,
@@ -29,16 +31,25 @@ function TrussCalculator() {
       { ...initLoad, id: 2, position: 10 },
     ],
   });
+
+  const [formData, setFormData] = useState(savedData);
+
+  const save = (data) => {
+    setSavedData(data);
+    setFormData(data);
+  }
+
+
   const handleChange = (e) => {
     e.preventDefault();
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    save({ ...formData, [e.target.name]: parseIfNumber(e.target.value) });
   };
 
   const handleSupportLocationChange = (e, index) => {
     e.preventDefault();
     const newSupports = [...formData.supports];
-    newSupports[index] = e.target.value;
-    setFormData({ ...formData, supports: newSupports });
+    newSupports[index] = parseIfNumber(e.target.value) ;
+    save({ ...formData, supports: newSupports });
   };
 
   // Handlers for Point Loads
@@ -50,9 +61,9 @@ function TrussCalculator() {
 
     formData.loads[loadIndex] = {
       ...load,
-      [e.target.name]: e.target.value,
+      [e.target.name]: parseIfNumber(e.target.value),
     };
-    setFormData({ ...formData });
+    save({ ...formData });
   };
 
   const handleAddLoad = () => {
@@ -61,12 +72,12 @@ function TrussCalculator() {
       id: formData.loads.length + 1,
       position: Math.floor(Math.random() * formData.trussLength),
     };
-    setFormData({ ...formData, loads: [...formData.loads, newLoad] });
+    save({ ...formData, loads: [...formData.loads, newLoad] });
   };
 
   const handleRemoveLoad = (id) => {
     const newLoads = formData.loads.filter((load) => load.id !== id);
-    setFormData({ ...formData, loads: newLoads });
+    save({ ...formData, loads: newLoads });
   };
 
   // Handlers for Rigging Points
@@ -79,9 +90,9 @@ function TrussCalculator() {
     );
     formData.supports[supportIndex] = {
       ...support,
-      [e.target.name]: e.target.value,
+      [e.target.name]: parseIfNumber(e.target.value),
     };
-    setFormData({ ...formData });
+    save({ ...formData });
   };
 
   const handleAddSupport = () => {
@@ -90,14 +101,14 @@ function TrussCalculator() {
       id: formData.supports.length + 1,
       position: Math.floor(Math.random() * formData.trussLength),
     };
-    setFormData({ ...formData, supports: [...formData.supports, newSupport] });
+    save({ ...formData, supports: [...formData.supports, newSupport] });
   };
 
   const handleRemoveSupport = (id) => {
     const newSupports = formData.supports.filter(
       (support) => support.id !== id
     );
-    setFormData({ ...formData, supports: newSupports });
+    save({ ...formData, supports: newSupports });
   };
 
   return (
