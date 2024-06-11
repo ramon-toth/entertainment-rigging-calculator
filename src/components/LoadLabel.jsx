@@ -14,11 +14,11 @@ function LoadLabel({ data }) {
   const units = useContext(UnitsContext);
   return (
     <div style={styles.container}>
-      <span>{data.label}</span>
-      <span>
+      <span className="block text-sm font-medium leading-6 text-gray-900 ">{data.label}</span>
+      <span className="block text-sm leading-6 text-gray-900 ">
         {data.position} {units.length}
       </span>
-      <span>
+      <span className="block text-sm font-medium leading-6 text-gray-900 ">
         {data.load} {units.force}
       </span>
     </div>

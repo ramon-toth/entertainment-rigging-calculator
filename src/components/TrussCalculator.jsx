@@ -123,7 +123,6 @@ function TrussCalculator() {
         handleAddSupport={handleAddSupport}
         handleRemoveSupport={handleRemoveSupport}
         handleSupportChange={handleSupportChange}
-        // handleSupportsNumberChange={handleSupportsNumberChange}
       />
       <Graph data={formData} />
     </UnitsProvider>

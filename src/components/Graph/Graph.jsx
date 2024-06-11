@@ -17,7 +17,6 @@ function Graph({ data }) {
       <Udl trussLength={trussLength} udl={totalUdl} />
       <Truss trussLength={trussLength} />
       <GraphCalculate data={data} />
-      {/* <GraphSupports /> */}
     </Card>
   );
 }

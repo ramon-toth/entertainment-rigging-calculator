@@ -37,9 +37,11 @@ function Udl({ trussLength = 12, udl = 0, color = "orange" }) {
 
   return (
     <div style={styles.container}>
-      <div>
-        {" "}
-        Uniformly Distributed Load: {udl} {units.force}
+      <div className="flex">
+        <span className="block text-sm  leading-6 text-gray-900 ">Uniformly Distributed Load: &nbsp;</span>
+        <span className="block text-sm font-medium leading-6 text-gray-900 ">{udl} {units.force}
+</span>
+
       </div>
       <div style={styles.line}></div>
       <div style={styles.arrowContainer}>

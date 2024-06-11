@@ -4,24 +4,20 @@ import "./Graph.css";
 import LoadLabel from "../LoadLabel";
 
 function GraphSupports({
-  trussLength = 12,
-
-  supports = { 0: 45.833333333333336, 24: 154.16666666666666 },
-
-  // supports = [
-  //   { position: 1, load: 100, label: "RP1" },
-  //   { position: 12, load: 4000, label: "RP2" },
-  // ],
+  trussLength,
+  supports
 }) {
-  const supportsArray = Object.entries(supports).map(([position, load]) => ({
-    position: parseInt(position),
-    load: Math.ceil(load),
-  }));
 
-  // console.log(supportsArray);
+  //Deprecated
+
+  // const supportsArray = Object.entries(supports).map(([position, load]) => ({
+  //   position: parseInt(position),
+  //   load: Math.ceil(load),
+  // }));
+
 
   const renderSupport = (index) => {
-    const support = supportsArray.find(
+    const support = supports.find(
       (support) => parseInt(support.position) === index + 1
     );
 

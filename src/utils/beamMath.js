@@ -14,12 +14,13 @@ export const udlLoadDistribution = [
   { supports: 8, distribution: [6, 16, 14, 14, 14, 16, 16, 6] },
 ];
 
-export function calculateSupportLoads(beamLength, supports, loads, udl) {
+export function calculateSupportLoads(beamLength, supportsObj, loads, udl) {
+
+  let supports = supportsObj.map((support) => support.position);
   let sections = [];
   // Determine Sections
   supports.forEach((support, index) => {
     if (index === 0) {
-      // sections.push({ id: 1, start: 0, end: support, length: support });
     } else {
       sections.push({
         id: index,
@@ -31,10 +32,21 @@ export function calculateSupportLoads(beamLength, supports, loads, udl) {
   });
 
   // Calculate Loads
-  sections.forEach((section) => {
-    let sectionLoads = loads.filter(
-      (load) => load.position >= section.r1 && load.position < section.r2
-    );
+  sections.forEach((section, i) => {
+    let sectionLoads = []
+    
+    // account for last section
+    if(i === sections.length - 1) {
+      sectionLoads = loads.filter(
+        (load) => load.position >= section.r1 && load.position <= section.r2
+      );
+    } else {
+      sectionLoads = 
+      loads.filter(
+        (load) => load.position >= section.r1 && load.position < section.r2
+      );
+    }
+
 
     let supportLoads = Array(2).fill(0);
     sectionLoads.forEach((load) => {
@@ -66,20 +78,25 @@ export function calculateSupportLoads(beamLength, supports, loads, udl) {
     (load, index) => (load += (udlDistribution[index] * udl) / 100)
   );
 
-  let result = {};
-  supports.forEach((support, index) => {
-    result[support] = supportLoadsWithUdl[index];
-  });
 
-  return result;
+  // Old method of returning supports as an object
+  // let result = {};
+  // supports.forEach((support, index) => {
+  //   result[support] = supportLoadsWithUdl[index];
+  // });
+
+  return supportsObj.map((support,i ) => ({...support, load: Math.ceil(supportLoadsWithUdl[i])}));
 }
 
-let beamLength = 24;
-let supports = [1, 6, 12, 15];
-let loads = [
-  { position: 8, weight: 100 },
-  { position: 14, weight: 400 },
-];
-let udl = 100; // Uniformly distributed load of 200 units per length
+// How to use 
 
-console.log(calculateSupportLoads(beamLength, supports, loads, udl));
+
+// let beamLength = 24;
+// let supports = [1, 6, 12, 15];
+// let loads = [
+//   { position: 8, weight: 100 },
+//   { position: 14, weight: 400 },
+// ];
+// let udl = 100; // Uniformly distributed load of 200 units per length
+
+// console.log(calculateSupportLoads(beamLength, supports, loads, udl));

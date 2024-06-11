@@ -11,17 +11,14 @@ function GraphCalculate({ data }) {
   }));
 
   const totalUdl =
-    (parseInt(udl) + parseInt(trussWeight)) / parseInt(trussLength);
+    (parseInt(udl) + parseInt(trussWeight));
 
   const supportLoads = calculateSupportLoads(
     parseInt(trussLength),
-    supports.map((support) => support.position),
-    // supports,
+    supports,
     pointLoads,
     totalUdl
   );
-
-  console.log(supportLoads);
 
   return <GraphSupports trussLength={trussLength} supports={supportLoads} />;
 }
