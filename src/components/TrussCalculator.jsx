@@ -1,6 +1,5 @@
-import React from "react";
-import { UnitsProvider } from "../context/unitsContext";
-import { units } from "../utils/units";
+import React, { useContext } from "react";
+import { UnitsContext } from "../context/unitsContext";
 import Graph from "./Graph/Graph";
 import TrussCalcForm from "./TrussCalcForm";
 import { useState } from "react";
@@ -34,11 +33,12 @@ function TrussCalculator() {
 
   const [formData, setFormData] = useState(savedData);
 
+  const units = useContext(UnitsContext);
+
   const save = (data) => {
     setSavedData(data);
     setFormData(data);
-  }
-
+  };
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -48,7 +48,7 @@ function TrussCalculator() {
   const handleSupportLocationChange = (e, index) => {
     e.preventDefault();
     const newSupports = [...formData.supports];
-    newSupports[index] = parseIfNumber(e.target.value) ;
+    newSupports[index] = parseIfNumber(e.target.value);
     save({ ...formData, supports: newSupports });
   };
 
@@ -112,7 +112,9 @@ function TrussCalculator() {
   };
 
   return (
-    <UnitsProvider value={units.imperial}>
+    <>
+      <Graph data={formData} />
+
       <TrussCalcForm
         handleAddLoad={handleAddLoad}
         formData={formData}
@@ -124,8 +126,7 @@ function TrussCalculator() {
         handleRemoveSupport={handleRemoveSupport}
         handleSupportChange={handleSupportChange}
       />
-      <Graph data={formData} />
-    </UnitsProvider>
+    </>
   );
 }
 

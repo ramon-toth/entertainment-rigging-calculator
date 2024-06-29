@@ -1,21 +1,27 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import {  useReducer } from "react";
+import { UnitsDispatchContext, UnitsProvider } from "./context/unitsContext";
+import { unitsReducer } from "./context/unitsReducer";
+import { units as initUnits } from "./utils/units";
 import "./App.css";
-import Truss from "./components/Truss/Truss";
-import Arrow from "./components/Arrow/Arrow";
-import Graph from "./components/Graph/Graph";
 import Layout from "./components/Layout";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 function App() {
-  const [count, setCount] = useState(0);
+
+  const [storedUnits] = useLocalStorage("units");
+
+  const [units, dispatch] = useReducer(
+    unitsReducer,
+    initUnits[storedUnits] || initUnits.imperial
+  );
 
   return (
     <>
-      <Layout />
-      {/* <Graph /> */}
-      {/* <Truss />
-      <Arrow direction="up" /> */}
+      <UnitsProvider value={units}>
+        <UnitsDispatchContext.Provider value={dispatch}>
+          <Layout />
+        </UnitsDispatchContext.Provider>
+      </UnitsProvider>
     </>
   );
 }

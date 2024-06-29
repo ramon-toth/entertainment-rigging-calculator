@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import Card from "./Card";
 import Input from "./Input";
-import { useState } from "react";
 import { UnitsContext } from "../context/unitsContext";
 import Divider from "./Divider";
 import PointLoadForm from "./PointLoadForm";
@@ -24,6 +23,7 @@ handleRemoveSupport,
 
   return (
     <Card>
+
       <div className="flex justify-center">
         <div className="w-full mx-5">
           <Divider title="Truss" />
