@@ -3,7 +3,6 @@ import Card from "./Card";
 import { downloadObjectAsJson, removeLocalStorageItem } from "../utils/utils";
 
 function Actions({ formData, captureScreenshot, handleImport }) {
-  // const handleExport = () => {}
 
   const handleClear = () => {
     const isConfirmed = window.confirm(
@@ -21,7 +20,7 @@ function Actions({ formData, captureScreenshot, handleImport }) {
 
         <button
           type="button"
-          onClick={() => downloadObjectAsJson(formData, "trussData")}
+          onClick={() => downloadObjectAsJson(formData, formData.projectName || "RiggingCalculatorProject")}
           className="rounded mx-6 bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100"
         >
           Export Project

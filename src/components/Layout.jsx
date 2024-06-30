@@ -1,18 +1,16 @@
-import {
-  Disclosure,
-  DisclosureButton,
-} from "@headlessui/react";
+import { Disclosure, DisclosureButton } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import TrussCalculator from "./TrussCalculator";
 import UnitSelector from "./UnitSelector";
 
 import shackle from "../assets/shackle.png";
+import { Outlet } from "react-router-dom";
 
 const navigation = [
-  { name: "Truss Load Calculator", href: "#", current: true },
-    { name: "Bridle Calculator", href: "#", current: false },
-    { name: "Help", href: "#", current: false },
-    { name: "Donate", href: "#", current: false },
+  { name: "Truss Load Calculator", href: "truss", current: true },
+  { name: "Bridle Calculator", href: "bridle", current: false },
+  { name: "Help", href: "help", current: false },
+  { name: "Donate", href: "donate", current: false },
 ];
 
 function classNames(...classes) {
@@ -60,9 +58,7 @@ export default function Layout() {
                       </div>
                       <div className="hidden md:block">
                         <div className="ml-4 flex items-center md:ml-6">
-                        <UnitSelector/>
-
-
+                          <UnitSelector />
                         </div>
                       </div>
                       <div className="-mr-2 flex md:hidden">
@@ -86,7 +82,6 @@ export default function Layout() {
                     </div>
                   </div>
                 </div>
-
               </>
             )}
           </Disclosure>
@@ -103,8 +98,7 @@ export default function Layout() {
           <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
             <div className="rounded-lg bg-white px-5 py-6 shadow sm:px-6">
               {/* Your content */}
-
-              <TrussCalculator />
+              <Outlet />
             </div>
           </div>
         </main>
