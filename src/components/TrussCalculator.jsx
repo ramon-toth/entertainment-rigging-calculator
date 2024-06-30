@@ -1,10 +1,12 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { UnitsContext } from "../context/unitsContext";
 import Graph from "./Graph/Graph";
 import TrussCalcForm from "./TrussCalcForm";
 import { useState } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { parseIfNumber } from "../utils/utils";
+import Actions from "./Actions";
+import { toPng } from 'html-to-image';
 
 function TrussCalculator() {
   const initLoad = {
@@ -111,10 +113,31 @@ function TrussCalculator() {
     save({ ...formData, supports: newSupports });
   };
 
-  return (
-    <>
-      <Graph data={formData} />
+  // Create a ref for the component you want to capture
+  const graphRef = useRef(null);
 
+  // Function to capture graph screenshot
+  const captureScreenshot = () => {
+    toPng(graphRef.current, { cacheBust: true, })
+      .then((dataUrl) => {
+        const link = document.createElement('a')
+        link.download = 'my-image-name.png'
+        link.href = dataUrl
+        link.click()
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  return (
+
+    <>
+      <Actions formData={formData} captureScreenshot={captureScreenshot} />
+
+      <div ref={graphRef}>
+        <Graph data={formData} />
+      </div>
       <TrussCalcForm
         handleAddLoad={handleAddLoad}
         formData={formData}
