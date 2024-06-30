@@ -23,8 +23,18 @@ handleRemoveSupport,
 
   return (
     <Card>
+<div className="flex justify-center">
+<Input
+            name={"projectName"}
+            label="Project Name"
+            value={formData.projectName}
+            onChange={handleChange}
+          />
+
+</div>
 
       <div className="flex justify-center">
+        
         <div className="w-full mx-5">
           <Divider title="Truss" />
           <Input

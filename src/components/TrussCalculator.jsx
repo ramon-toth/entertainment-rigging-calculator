@@ -7,6 +7,8 @@ import useLocalStorage from "../hooks/useLocalStorage";
 import { parseIfNumber } from "../utils/utils";
 import Actions from "./Actions";
 import { toPng } from 'html-to-image';
+import { parse } from "postcss";
+import { parseUploadedJsonFile } from "../utils/utils";
 
 function TrussCalculator() {
   const initLoad = {
@@ -19,7 +21,9 @@ function TrussCalculator() {
   const initSupport = { id: 1, position: 2, label: "RP X" };
 
   const [savedData, setSavedData] = useLocalStorage("trussData", {
+    v: 1,
     trussLength: 24,
+    projectName: "My Project",
     numberOfSupports: 2,
     trussWeight: 100,
     udl: 0,
@@ -121,7 +125,7 @@ function TrussCalculator() {
     toPng(graphRef.current, { cacheBust: true, })
       .then((dataUrl) => {
         const link = document.createElement('a')
-        link.download = 'my-image-name.png'
+        link.download = `${formData.projectName}.png`
         link.href = dataUrl
         link.click()
       })
@@ -130,14 +134,26 @@ function TrussCalculator() {
       })
   }
 
+  const handleImport = async (e) => { 
+    
+    const importData = await parseUploadedJsonFile(e.target.files[0]) 
+    if (importData.v !== 1) {
+      alert("Invalid file format")
+      return
+    } else {
+      save(importData)
+    }
+}
+
   return (
 
     <>
-      <Actions formData={formData} captureScreenshot={captureScreenshot} />
 
       <div ref={graphRef}>
         <Graph data={formData} />
       </div>
+      <Actions formData={formData} captureScreenshot={captureScreenshot} handleImport={handleImport} />
+
       <TrussCalcForm
         handleAddLoad={handleAddLoad}
         formData={formData}
