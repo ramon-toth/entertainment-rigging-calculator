@@ -1,12 +1,13 @@
 import { Disclosure, DisclosureButton } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import TrussCalculator from "./TrussCalculator";
 import UnitSelector from "./UnitSelector";
+import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import shackle from "../assets/shackle.png";
 import { Outlet } from "react-router-dom";
 
-const navigation = [
+const initNav = [
   { name: "Truss Load Calculator", href: "truss", current: true },
   { name: "Bridle Calculator", href: "bridle", current: false },
   { name: "Help", href: "help", current: false },
@@ -18,7 +19,17 @@ function classNames(...classes) {
 }
 
 export default function Layout() {
-  return (
+
+  const [navigation, setNavigation] = useState(initNav);
+  const location = useLocation();
+  const updatedNavigation = navigation.map(item => ({
+    ...item,
+    current: item.href === location.pathname.split("/")[1],
+  }));
+
+  useEffect(() => setNavigation(updatedNavigation), [location.pathname]);
+
+return (
     <>
       <div className="min-h-full">
         <div className="bg-gray-800 pb-32">
@@ -39,9 +50,9 @@ export default function Layout() {
                         <div className="hidden md:block">
                           <div className="ml-10 flex items-baseline space-x-4">
                             {navigation.map((item) => (
-                              <a
+                              <Link
                                 key={item.name}
-                                href={item.href}
+                                to={item.href}
                                 className={classNames(
                                   item.current
                                     ? "bg-gray-900 text-white"
@@ -51,7 +62,7 @@ export default function Layout() {
                                 aria-current={item.current ? "page" : undefined}
                               >
                                 {item.name}
-                              </a>
+                              </Link>
                             ))}
                           </div>
                         </div>
