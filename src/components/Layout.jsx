@@ -9,7 +9,7 @@ import { Outlet } from "react-router-dom";
 
 const initNav = [
   { name: "Truss Load Calculator", href: "truss", current: true },
-  { name: "Bridle Calculator", href: "bridle", current: false },
+  // { name: "Bridle Calculator", href: "bridle", current: false },
   { name: "Help", href: "help", current: false },
   { name: "Donate", href: "donate", current: false },
 ];

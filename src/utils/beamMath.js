@@ -18,45 +18,100 @@ export function calculateSupportLoads(beamLength, supportsObj, loads, udl) {
 
   let supports = supportsObj.map((support) => support.position);
   let sections = [];
-  // Determine Sections
+  // // Determine Sections
+  // supports.forEach((support, index) => {
+  //   if (index === 0) {
+  //   } else {
+  //     sections.push({
+  //       id: index,
+  //       r1: supports[index - 1],
+  //       r2: support,
+  //       l: support - supports[index - 1],
+  //     });
+  //   }
+  // });
+
+  // Determine Sections including potential cantilever sections
   supports.forEach((support, index) => {
+    if (index === 0 && support > 0) {
+      // Cantilever at the start
+      sections.push({
+        id: 'start-cantilever',
+        r1: 0,
+        r2: support,
+        l: support,
+        isCantilever: true,
+      });
+    }
     if (index === 0) {
+      // First support, no section to push yet
     } else {
       sections.push({
         id: index,
         r1: supports[index - 1],
         r2: support,
         l: support - supports[index - 1],
+        isCantilever: false,
+      });
+    }
+    if (index === supports.length - 1 && support < beamLength) {
+      // Cantilever at the end
+      sections.push({
+        id: 'end-cantilever',
+        r1: support,
+        r2: beamLength,
+        l: beamLength - support,
+        isCantilever: true,
       });
     }
   });
 
-  // Calculate Loads
+  // Calculate Loads including for cantilever sections
   sections.forEach((section, i) => {
-    let sectionLoads = []
-    
-    // account for last section
-    if(i === sections.length - 1) {
-      sectionLoads = loads.filter(
-        (load) => load.position >= section.r1 && load.position <= section.r2
-      );
-    } else {
-      sectionLoads = 
-      loads.filter(
-        (load) => load.position >= section.r1 && load.position < section.r2
-      );
-    }
-
+    let sectionLoads = loads.filter(
+      (load) => load.position >= section.r1 && load.position <= section.r2
+    );
 
     let supportLoads = Array(2).fill(0);
     sectionLoads.forEach((load) => {
-      supportLoads[1] =
-        supportLoads[1] +
-        (load.weight * (load.position - section.r1)) / section.l;
-      supportLoads[0] = supportLoads[0] + (load.weight - supportLoads[1]);
+      if (!section.isCantilever) {
+        // Normal section load calculation
+        supportLoads[1] += (load.weight * (load.position - section.r1)) / section.l;
+        supportLoads[0] = supportLoads[0] + (load.weight - supportLoads[1]);
+      } else {
+        // Cantilever load calculation
+        supportLoads[1] += load.weight; // All load is taken by the single support for cantilever
+      }
     });
     section.load = supportLoads;
   });
+
+  // Calculate Loads
+  // sections.forEach((section, i) => {
+  //   let sectionLoads = []
+    
+  //   // account for last section
+  //   if(i === sections.length - 1) {
+  //     sectionLoads = loads.filter(
+  //       (load) => load.position >= section.r1 && load.position <= section.r2
+  //     );
+  //   } else {
+  //     sectionLoads = 
+  //     loads.filter(
+  //       (load) => load.position >= section.r1 && load.position < section.r2
+  //     );
+  //   }
+
+
+  //   let supportLoads = Array(2).fill(0);
+  //   sectionLoads.forEach((load) => {
+  //     supportLoads[1] =
+  //       supportLoads[1] +
+  //       (load.weight * (load.position - section.r1)) / section.l;
+  //     supportLoads[0] = supportLoads[0] + (load.weight - supportLoads[1]);
+  //   });
+  //   section.load = supportLoads;
+  // });
 
   let totalLoads = Array(supports.length).fill(0);
   supports.forEach((support, index) => {
