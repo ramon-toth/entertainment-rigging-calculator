@@ -8,7 +8,8 @@ import shackle from "../assets/shackle.png";
 import { Outlet } from "react-router-dom";
 
 const initNav = [
-  { name: "Truss Load Calculator", href: "truss", current: true },
+  { name: "Home", href: "", current: true },
+  { name: "Truss Load Calculator", href: "truss", current: false },
   // { name: "Bridle Calculator", href: "bridle", current: false },
   { name: "Help", href: "help", current: false },
   { name: "Donate", href: "donate", current: false },
@@ -99,7 +100,7 @@ return (
           <header className="py-10">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <h1 className="text-3xl font-bold tracking-tight text-white">
-                Entertainment Rigging Calculator
+              Entertainment Rigging Calculator 
               </h1>
             </div>
           </header>

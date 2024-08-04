@@ -9,6 +9,7 @@ import Actions from "./Actions";
 import { toPng } from 'html-to-image';
 import { parse } from "postcss";
 import { parseUploadedJsonFile } from "../utils/utils";
+import TrussCalcInfo from "./TrussCalcInfo";
 
 function TrussCalculator() {
   const initLoad = {
@@ -148,7 +149,7 @@ function TrussCalculator() {
   return (
 
     <>
-
+<TrussCalcInfo />
       <div ref={graphRef}>
         <Graph data={formData} />
       </div>
